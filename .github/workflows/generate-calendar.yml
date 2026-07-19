@@ -1,0 +1,65 @@
+name: Generate Calendar
+
+on:
+  schedule:
+    # Run every 30 minutes
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-calendar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build -c Release --no-restore
+
+      - name: Generate calendar file
+        run: dotnet run --project IcsCalendarAggregator.csproj --no-build -- --output-file calendar.ics
+
+      - name: Verify calendar
+        run: |
+          if [ -f calendar.ics ] && [ -s calendar.ics ]; then
+            echo "✓ Calendar file generated: $(wc -c < calendar.ics) bytes"
+          else
+            echo "✗ Calendar file is empty or missing"
+            exit 1
+          fi
+
+      - name: Create timestamp
+        run: |
+          echo "Last updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" > calendar_timestamp.txt
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Copy calendar to gh-pages
+        run: |
+          cp calendar.ics gh-pages/
+          cp calendar_timestamp.txt gh-pages/
+
+      - name: Push to gh-pages
+        working-directory: gh-pages
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add calendar.ics calendar_timestamp.txt
+          git commit -m "Auto-generate calendar: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No changes to commit"
+          git push
