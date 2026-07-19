@@ -30,7 +30,7 @@ jobs:
 
       - name: Generate calendar file
         run: |
-          cd /home/runner/work/icscombiner/icscombiner
+          cd /home/runner/work/icscombiner/icscombiner/bin/Debug/net10.0/IcsCalendarAggregator
           dotnet run --project IcsCalendarAggregator.csproj -c Release -- --output-file calendar.ics
     
       - name: Verify calendar
