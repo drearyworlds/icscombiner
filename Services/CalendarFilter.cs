@@ -52,12 +52,16 @@ public class CalendarFilter : ICalendarFilter
             }
 
             // Check if event start is in the valid time range
-            if (calEvent.DtStart?.AsSystemLocal < pastDate ||
-                calEvent.DtStart?.AsSystemLocal > futureDate)
+            var eventStart = calEvent.DtStart?.AsUtc;
+            var pastDateUtc = DateTime.UtcNow.AddDays(-_options.PastDays);
+            var futureDateUtc = DateTime.UtcNow.AddDays(_options.FutureDays);
+
+            if (eventStart.HasValue &&
+                (eventStart.Value < pastDateUtc || eventStart.Value > futureDateUtc))
             {
                 _logger.LogDebug(
                     "Blocking event {Title} due to time constraints (Start: {Start})",
-                    calEvent.Summary, calEvent.DtStart?.AsSystemLocal);
+                    calEvent.Summary, eventStart.Value);
                 blockedCount++;
                 continue;
             }

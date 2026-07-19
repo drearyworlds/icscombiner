@@ -77,8 +77,6 @@ public class CalendarAggregatorService : ICalendarAggregatorService
             allEvents.AddRange(calendar.Events);
         }
 
-        result.TotalDownloaded = allEvents.Count;
-
         if (allEvents.Count == 0)
         {
             _logger.LogError("No events found in any calendar");

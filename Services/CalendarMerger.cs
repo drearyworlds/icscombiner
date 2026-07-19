@@ -84,7 +84,8 @@ public class CalendarMerger : ICalendarMerger
         foreach (var calEvent in passOneResult.Values)
         {
             var summaryLower = (calEvent.Summary ?? string.Empty).ToLowerInvariant();
-            var dtStartKey = calEvent.DtStart?.AsSystemLocal.ToString("O") ?? "null";
+            var dtStartUtc = calEvent.DtStart?.AsUtc;
+            var dtStartKey = dtStartUtc?.ToString("O") ?? "null";
             var key = $"{summaryLower}|{dtStartKey}";
 
             if (seen.Contains(key))
@@ -92,7 +93,7 @@ public class CalendarMerger : ICalendarMerger
                 pass2Duplicates++;
                 _logger.LogDebug(
                     "Duplicate event detected: Summary={Summary}, DtStart={DtStart}",
-                    calEvent.Summary, calEvent.DtStart?.AsSystemLocal);
+                    calEvent.Summary, dtStartUtc);
             }
             else
             {

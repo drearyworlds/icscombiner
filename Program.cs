@@ -61,14 +61,12 @@ app.UseHttpsRedirection();
 // Endpoints
 app.MapGet("/calendar.ics", CalendarEndpoints.GetCalendarIcs)
     .WithName("GetCalendarIcs")
-    .WithOpenApi()
-    .Produces("text/calendar")
-    .Produces(500);
+    .Produces(StatusCodes.Status200OK, typeof(string), "text/calendar")
+    .Produces(StatusCodes.Status500InternalServerError);
 
 app.MapGet("/health", CalendarEndpoints.GetHealth)
     .WithName("GetHealth")
-    .WithOpenApi()
-    .Produces(200);
+    .Produces(StatusCodes.Status200OK);
 
 try
 {
