@@ -26,7 +26,7 @@ jobs:
         run: dotnet restore
 
       - name: Build project
-        run: dotnet build -c Release --no-restore -o -p:OutputPath=/home/runner/work/icscombiner/icscombiner
+        run: dotnet build -c Release --no-restore -o /home/runner/work/icscombiner/icscombiner
       - name: Generate calendar file
         run: |
           cd /home/runner/work/icscombiner/icscombiner
