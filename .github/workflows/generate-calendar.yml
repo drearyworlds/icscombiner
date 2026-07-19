@@ -26,11 +26,10 @@ jobs:
         run: dotnet restore
 
       - name: Build project
-        run: dotnet build -c Release --no-restore -o /home/runner/work/icscombiner/icscombiner/bin/Debug/net10.0/IcsCalendarAggregator
-
+        run: dotnet build -c Release --no-restore -o -p:OutputPath=/home/runner/work/icscombiner/icscombiner
       - name: Generate calendar file
         run: |
-          cd /home/runner/work/icscombiner/icscombiner/bin/Debug/net10.0/IcsCalendarAggregator
+          cd /home/runner/work/icscombiner/icscombiner
           dotnet run --project IcsCalendarAggregator.csproj -c Release -- --output-file calendar.ics
     
       - name: Verify calendar
