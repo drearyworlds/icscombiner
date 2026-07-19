@@ -1,5 +1,3 @@
-namespace IcsCalendarAggregator;
-
 using IcsCalendarAggregator.Configuration;
 using IcsCalendarAggregator.Services;
 using IcsCalendarAggregator.Services.Abstractions;
@@ -33,13 +31,13 @@ builder.Services.AddScoped<ICalendarAggregatorService, CalendarAggregatorService
 var app = builder.Build();
 
 // Handle command line argument for offline generation
-var args = Environment.GetCommandLineArgs();
-if (args.Contains("--output-file"))
+var commandLineArgs = Environment.GetCommandLineArgs();
+if (commandLineArgs.Contains("--output-file"))
 {
-    var outputIndex = Array.IndexOf(args, "--output-file");
-    if (outputIndex >= 0 && outputIndex + 1 < args.Length)
+    var outputIndex = Array.IndexOf(commandLineArgs, "--output-file");
+    if (outputIndex >= 0 && outputIndex + 1 < commandLineArgs.Length)
     {
-        var outputPath = args[outputIndex + 1];
+        var outputPath = commandLineArgs[outputIndex + 1];
         var aggregatorService = app.Services.GetRequiredService<ICalendarAggregatorService>();
         var calendar = await aggregatorService.AggregateCalendarsAsync();
         
