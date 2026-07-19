@@ -29,7 +29,7 @@ jobs:
         run: dotnet build -c Release --no-restore
 
       - name: Generate calendar file
-        run: dotnet run --project IcsCalendarAggregator.csproj --no-build -- --output-file calendar.ics
+        run: dotnet run --project IcsCalendarAggregator.csproj -- --output-file calendar.ics
 
       - name: Verify calendar
         run: |
