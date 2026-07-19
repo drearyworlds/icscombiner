@@ -26,7 +26,7 @@ jobs:
         run: dotnet restore
 
       - name: Build project
-        run: dotnet build -c Release --no-restore -o /home/runner/work/icscombiner/icscombiner
+        run: dotnet build -c Release --no-restore -o /home/runner/work/icscombiner/icscombiner/bin/Debug/net10.0/IcsCalendarAggregator
 
       - name: Generate calendar file
         run: |
