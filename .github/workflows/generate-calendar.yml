@@ -2,8 +2,8 @@ name: Generate Calendar
 
 on:
   schedule:
-    # Run every 30 minutes
-    - cron: '*/30 * * * *'
+    # Run midnight every day
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
