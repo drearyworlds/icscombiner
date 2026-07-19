@@ -1,0 +1,4 @@
+theme: jekyll-theme-cayman
+title: ICS Calendar Aggregator
+description: Combine multiple ICS calendar feeds into a single unified calendar
+show_downloads: false
