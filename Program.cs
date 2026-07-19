@@ -30,6 +30,32 @@ builder.Services.AddScoped<ICalendarAggregatorService, CalendarAggregatorService
 
 var app = builder.Build();
 
+// Handle command line argument for offline generation
+var args = Environment.GetCommandLineArgs();
+if (args.Contains("--output-file"))
+{
+    var outputIndex = Array.IndexOf(args, "--output-file");
+    if (outputIndex >= 0 && outputIndex + 1 < args.Length)
+    {
+        var outputPath = args[outputIndex + 1];
+        var aggregatorService = app.Services.GetRequiredService<ICalendarAggregatorService>();
+        var calendar = await aggregatorService.AggregateCalendarsAsync();
+        
+        if (calendar != null)
+        {
+            File.WriteAllText(outputPath, calendar.ToString());
+            Log.Information("Calendar written to {OutputPath}", outputPath);
+        }
+        else
+        {
+            Log.Error("Failed to generate calendar");
+        }
+        
+        Log.CloseAndFlush();
+        return;
+    }
+}
+
 app.UseHttpsRedirection();
 
 // Endpoints
@@ -57,17 +83,21 @@ finally
     Log.CloseAndFlush();
 }
 
+namespace IcsCalendarAggregator;
+
 /// <summary>
 /// Calendar endpoints for the aggregator API.
 /// </summary>
-public static class CalendarEndpoints
+internal static class CalendarEndpoints
 {
     /// <summary>
     /// Gets the aggregated ICS calendar feed.
     /// </summary>
-    public static async Task<IResult> GetCalendarIcs(ICalendarAggregatorService aggregatorService,
-        ILogger<Program> logger)
+    public static async Task<IResult> GetCalendarIcs(
+        ICalendarAggregatorService aggregatorService,
+        ILoggerFactory loggerFactory)
     {
+        var logger = loggerFactory.CreateLogger("CalendarEndpoint");
         try
         {
             var calendar = await aggregatorService.AggregateCalendarsAsync();
