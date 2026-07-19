@@ -3,9 +3,9 @@ using IcsCalendarAggregator.Services;
 using IcsCalendarAggregator.Services.Abstractions;
 using Serilog;
 
-internal class Program
+public class Program
 {
-    private static async global::System.Threading.Tasks.Task Main(string[] args)
+    public static async global::System.Threading.Tasks.Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
