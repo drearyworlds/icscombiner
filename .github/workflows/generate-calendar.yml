@@ -17,20 +17,21 @@ jobs:
         with:
           ref: main
 
-      - name: Setup .NET 8
+      - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Build project
-        run: dotnet build -c Release --no-restore
-
+        run: dotnet build -c Release --no-restore -o /home/runner/work/icscombiner/icscombiner
       - name: Generate calendar file
-        run: dotnet run --project IcsCalendarAggregator.csproj --no-build -- --output-file calendar.ics
-
+        run: |
+          cd /home/runner/work/icscombiner/icscombiner
+          dotnet run --project IcsCalendarAggregator.csproj -c Release -- --output-file calendar.ics
+    
       - name: Verify calendar
         run: |
           if [ -f calendar.ics ] && [ -s calendar.ics ]; then
