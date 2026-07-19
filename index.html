@@ -94,6 +94,24 @@
             background: #667eea;
             color: white;
         }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+        }
+        .btn-copy {
+            background: #17a2b8;
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .btn-copy:hover {
+            background: #138496;
+        }
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -152,6 +170,7 @@
             border-radius: 5px;
             overflow-x: auto;
             margin: 15px 0;
+            font-size: 0.9em;
         }
         ul, ol {
             margin-left: 20px;
@@ -176,6 +195,49 @@
             padding: 8px;
             background: white;
             border-radius: 3px;
+            word-break: break-all;
+        }
+        .download-section {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f1ff 100%);
+            border: 2px solid #667eea;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .download-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .url-box {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #ddd;
+        }
+        .url-box code {
+            flex: 1;
+            word-break: break-all;
+            color: #667eea;
+        }
+        .timestamp {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        .status-badge {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            margin-top: 10px;
         }
         footer {
             text-align: center;
@@ -191,6 +253,16 @@
         footer a:hover {
             text-decoration: underline;
         }
+        .how-to-subscribe {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .how-to-subscribe ol li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
     </style>
 </head>
 <body>
@@ -202,17 +274,19 @@
                 <span class="badge">🔵 .NET 8</span>
                 <span class="badge">⚡ ASP.NET Core</span>
                 <span class="badge">🔄 Concurrent</span>
-                <span class="badge">🎯 Open Source</span>
+                <span class="badge">🏷️ Open Source</span>
+                <span class="badge">🤖 Automated</span>
             </div>
             <div class="cta-buttons">
                 <a href="https://github.com/drearyworlds/icscombiner" class="btn btn-primary">📦 View on GitHub</a>
+                <a href="#download" class="btn btn-success">⬇️ Download Calendar</a>
                 <a href="#getting-started" class="btn btn-secondary">🚀 Get Started</a>
             </div>
         </header>
 
         <div class="features">
             <div class="feature-card">
-                <div class="icon">🌐</div>
+                <div class="icon">🌍</div>
                 <h3>Multi-Source Aggregation</h3>
                 <p>Download and merge calendars from multiple ICS feed URLs concurrently</p>
             </div>
@@ -243,6 +317,42 @@
             </div>
         </div>
 
+        <section id="download">
+            <h2>⬇️ Download & Subscribe</h2>
+            <p>The merged calendar is automatically updated every 30 minutes via GitHub Actions. Subscribe to this URL in your favorite calendar app:</p>
+            
+            <div class="download-section">
+                <h3>📋 Huntsville Combined Calendar</h3>
+                <p style="margin-bottom: 15px;">Subscribe to this URL in your calendar application:</p>
+                <div class="url-box">
+                    <code id="calendarUrl">https://drearyworlds.github.io/icscombiner/calendar.ics</code>
+                    <button class="btn btn-copy" onclick="copyToClipboard()">📋 Copy</button>
+                </div>
+                <div class="timestamp" id="timestamp">⏰ Loading update time...</div>
+                <div style="margin-top: 15px;">
+                    <a href="calendar.ics" class="btn btn-success" style="display: inline-block;">📥 Direct Download</a>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 25px; color: #333;">📱 How to Subscribe</h3>
+            <div class="how-to-subscribe">
+                <ol>
+                    <li><strong>Copy the calendar URL</strong> above using the copy button</li>
+                    <li><strong>Open your calendar app:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>🔵 <strong>Google Calendar:</strong> "+ Add other calendars" → "From URL" → Paste URL</li>
+                            <li>📧 <strong>Microsoft Outlook:</strong> "Add calendar" → "Subscribe from web" → Paste URL</li>
+                            <li>🍎 <strong>Apple Calendar:</strong> File → "New Calendar Subscription" → Paste URL</li>
+                            <li>🔗 <strong>Other apps:</strong> Look for "Add from URL" or "Subscribe to calendar"</li>
+                        </ul>
+                    </li>
+                    <li><strong>Save</strong> and the calendar will automatically update every 30 minutes</li>
+                </ol>
+            </div>
+
+            <div class="status-badge">✅ Automatically updated every 30 minutes</div>
+        </section>
+
         <section id="getting-started">
             <h2>🚀 Getting Started</h2>
             <h3 style="color: #333; margin-top: 20px;">Prerequisites</h3>
@@ -260,7 +370,7 @@ dotnet restore</pre>
         </section>
 
         <section>
-            <h2>📡 API Endpoints</h2>
+            <h2>💡 API Endpoints</h2>
             <h3 style="color: #333; margin-top: 20px;">GET /calendar.ics</h3>
             <p>Returns the aggregated ICS calendar feed</p>
             <pre>curl -H "Accept: text/calendar" https://localhost:5001/calendar.ics > calendar.ics</pre>
@@ -278,18 +388,18 @@ dotnet restore</pre>
         </section>
 
         <section>
-            <h2>🗓️ Pre-Configured Calendar Sources</h2>
+            <h2>📝 Pre-Configured Calendar Sources</h2>
             <p>The application comes with three Huntsville, AL event sources pre-configured:</p>
             <div class="sources">
-                <h4>1. Timely Events</h4>
+                <h4>1. 🎪 Timely Events</h4>
                 <div class="source-item"><code>https://timelyapp.time.ly/api/calendars/54704218/export?format=ics</code></div>
             </div>
             <div class="sources">
-                <h4>2. Stove House</h4>
+                <h4>2. 🍽️ Stove House</h4>
                 <div class="source-item"><code>https://www.stovehouse.com/events/list/?ical=1</code></div>
             </div>
             <div class="sources">
-                <h4>3. Huntsville City Calendar</h4>
+                <h4>3. 🏛️ Huntsville City Calendar</h4>
                 <div class="source-item"><code>https://www.huntsvilleal.gov/city-calendar/month/?ical=1</code></div>
             </div>
         </section>
@@ -322,7 +432,7 @@ dotnet restore</pre>
         </section>
 
         <section>
-            <h2>🔧 Architecture</h2>
+            <h2>🏗️ Architecture</h2>
             <p>The solution uses a layered, testable architecture with dependency injection:</p>
             <ul>
                 <li><strong>CalendarFetcher:</strong> Downloads calendars from remote sources concurrently</li>
@@ -334,13 +444,55 @@ dotnet restore</pre>
         </section>
 
         <section>
+            <h2>⚡ GitHub Actions Automation</h2>
+            <p>The calendar is automatically regenerated and published every 30 minutes:</p>
+            <ul>
+                <li>✅ Scheduled to run every 30 minutes</li>
+                <li>✅ Fetches latest events from all sources</li>
+                <li>✅ Deduplicates and filters events</li>
+                <li>✅ Publishes updated calendar to GitHub Pages</li>
+                <li>✅ Can be manually triggered anytime</li>
+            </ul>
+            <p style="margin-top: 15px;">View the workflow: <a href="https://github.com/drearyworlds/icscombiner/blob/main/.github/workflows/generate-calendar.yml" style="color: #667eea; font-weight: 600;">generate-calendar.yml</a></p>
+        </section>
+
+        <section>
             <h2>📚 Documentation</h2>
-            <p>For comprehensive documentation, visit the <a href="https://github.com/drearyworlds/icscombiner/blob/main/README.md" style="color: #667eea;">README.md</a> on GitHub.</p>
+            <p>For comprehensive documentation, visit the <a href="https://github.com/drearyworlds/icscombiner/blob/main/README.md" style="color: #667eea; font-weight: 600;">README.md</a> on GitHub.</p>
         </section>
 
         <footer>
             <p>Made with ❤️ • <a href="https://github.com/drearyworlds/icscombiner">GitHub</a> • <a href="https://github.com/drearyworlds">drearyworlds</a></p>
         </footer>
     </div>
+
+    <script>
+        function copyToClipboard() {
+            const url = document.getElementById('calendarUrl').textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Load and display the timestamp
+        fetch('calendar_timestamp.txt')
+            .then(response => response.text())
+            .then(text => {
+                const timestamp = document.getElementById('timestamp');
+                if (text.trim()) {
+                    timestamp.textContent = '⏰ ' + text;
+                } else {
+                    timestamp.textContent = '⏰ Calendar updates every 30 minutes';
+                }
+            })
+            .catch(() => {
+                document.getElementById('timestamp').textContent = '⏰ Calendar updates every 30 minutes';
+            });
+    </script>
 </body>
 </html>
