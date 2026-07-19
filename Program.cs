@@ -1,3 +1,5 @@
+namespace IcsCalendarAggregator;
+
 using IcsCalendarAggregator.Configuration;
 using IcsCalendarAggregator.Services;
 using IcsCalendarAggregator.Services.Abstractions;
@@ -82,8 +84,6 @@ finally
 {
     Log.CloseAndFlush();
 }
-
-namespace IcsCalendarAggregator;
 
 /// <summary>
 /// Calendar endpoints for the aggregator API.
